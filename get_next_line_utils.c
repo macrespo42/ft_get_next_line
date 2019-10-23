@@ -6,37 +6,47 @@
 /*   By: macrespo <macrespo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/15 12:52:44 by macrespo          #+#    #+#             */
-/*   Updated: 2019/10/18 09:57:06 by macrespo         ###   ########.fr       */
+/*   Updated: 2019/10/23 11:51:39 by macrespo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-
-char		*ft_strjoin(char const s1, char const s2)
+int			ft_strlen(const char *s)
 {
+	int		len;
+
+	len = 0;
+	while (s[len])
+		len++;
+	return (len);
+}
+
+char		*ft_strjoin(char const *s1, char const *s2)
+{
+	char		*s3;
 	int			i;
 	int			j;
 	int			size;
-	char		*s3;
 
 	if (!s1 || !s2)
 		return (NULL);
-	i = 0;
-	while (s1[i])
-		i++;
-	j = 0;
-	while (s2[i])
-		j++;
-	size = i + j;
+	size = ft_strlen(s1) + ft_strlen(s2);
 	if (!(s3 = (char*)malloc(sizeof(char) * (size + 1))))
 		return (NULL);
-	i = -1;
-	while (s1[++i])
+	i = 0;
+	while (s1[i])
+	{
 		s3[i] = s1[i];
+		i++;
+	}
 	j = 0;
 	while (s2[j])
-		s3[i++] = s2[j++];
+	{
+		s3[i] = s2[j];
+		j++;
+		i++;
+	}
 	s3[i] = '\0';
 	return (s3);
 }
@@ -46,6 +56,8 @@ char		*ft_strchr(const char *s, int c)
 	int		i;
 
 	i = 0;
+	if (!s)
+		return (NULL);
 	while (s[i])
 	{
 		if (s[i] == c)
@@ -55,4 +67,20 @@ char		*ft_strchr(const char *s, int c)
 	if (c == '\0')
 		return ((char *)s + i);
 	return (NULL);
+}
+
+void		*ft_calloc(size_t count, size_t size)
+{
+	char		*tab;
+	size_t		i;
+
+	if (!(tab = (char*)malloc(size * count)))
+		return (NULL);
+	i = 0;
+	while (i < count * size)
+	{
+		tab[i] = '\0';
+		i++;
+	}
+	return (tab);
 }
