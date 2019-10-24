@@ -6,7 +6,7 @@
 /*   By: macrespo <macrespo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/15 12:52:04 by macrespo          #+#    #+#             */
-/*   Updated: 2019/10/24 17:03:22 by macrespo         ###   ########.fr       */
+/*   Updated: 2019/10/24 17:39:33 by macrespo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ static char		*current_line(char **fat_buffer)
 		new_line[i] = tmp[i];
 		i++;
 	}
+	new_line[i] = '\0';
 	free(tmp);
 	return (new_line);
 }
