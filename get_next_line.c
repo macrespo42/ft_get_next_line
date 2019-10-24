@@ -6,7 +6,7 @@
 /*   By: macrespo <macrespo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/15 12:52:04 by macrespo          #+#    #+#             */
-/*   Updated: 2019/10/24 16:00:15 by macrespo         ###   ########.fr       */
+/*   Updated: 2019/10/24 17:03:22 by macrespo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ static char		*current_line(char **fat_buffer)
 	i = 0;
 	while (tmp[i] && tmp[i] != '\n')
 		i++;
+	free(*fat_buffer);
 	*fat_buffer = ft_stridup(tmp, i + 1);
 	if (!(new_line = (char*)malloc(sizeof(char) * i + 1)))
 		return (NULL);
@@ -52,6 +53,7 @@ static char		*current_line(char **fat_buffer)
 		new_line[i] = tmp[i];
 		i++;
 	}
+	free(tmp);
 	return (new_line);
 }
 
@@ -67,6 +69,9 @@ int				get_next_line(int fd, char **line)
 	ret = reader(&fat_buffer, fd, buffer);
 	*line = current_line(&fat_buffer);
 	if (ret == 0)
+	{
+		free(fat_buffer);
 		return (0);
+	}
 	return (1);
 }
