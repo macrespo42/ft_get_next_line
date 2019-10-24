@@ -6,39 +6,67 @@
 /*   By: macrespo <macrespo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/15 12:52:04 by macrespo          #+#    #+#             */
-/*   Updated: 2019/10/23 11:51:16 by macrespo         ###   ########.fr       */
+/*   Updated: 2019/10/24 16:00:15 by macrespo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-static void		reader(char **readed, int fd, char *buffer)
+static int		reader(char **fat_buffer, int fd, char *buffer)
 {
 	char	*tmp;
 	int		ret;
 
 	ret = 1;
-	while (ret > -1 && !(ft_strchr(*readed, '\n')))
+	while (ret && !(ft_strchr(*fat_buffer, '\n')))
 	{
 		ret = read(fd, buffer, BUFFER_SIZE);
 		buffer[ret] = '\0';
 		if (fd)
 		{
-			tmp = *readed;
-			*readed = ft_strjoin(tmp, buffer);
+			tmp = *fat_buffer;
+			*fat_buffer = ft_strjoin(tmp, buffer);
 			free(tmp);
 		}
 	}
 	free(buffer);
+	return (ret);
+}
+
+static char		*current_line(char **fat_buffer)
+{
+	char	*new_line;
+	char	*tmp;
+	int		i;
+
+	tmp = ft_stridup(*fat_buffer, 0);
+	i = 0;
+	while (tmp[i] && tmp[i] != '\n')
+		i++;
+	*fat_buffer = ft_stridup(tmp, i + 1);
+	if (!(new_line = (char*)malloc(sizeof(char) * i + 1)))
+		return (NULL);
+	i = 0;
+	while (tmp[i] && tmp[i] != '\n')
+	{
+		new_line[i] = tmp[i];
+		i++;
+	}
+	return (new_line);
 }
 
 int				get_next_line(int fd, char **line)
 {
-	static char		*readed = NULL;
+	static char		*fat_buffer = NULL;
 	char			*buffer;
+	int				ret;
 
+	if (fat_buffer == NULL)
+		fat_buffer = (char*)ft_calloc(sizeof(char), 1);
 	buffer = (char*)ft_calloc(sizeof(char), BUFFER_SIZE + 1);
-	readed = (char*)ft_calloc(sizeof(char), 1);
-	reader(&readed, fd, buffer);
-	return (0);
+	ret = reader(&fat_buffer, fd, buffer);
+	*line = current_line(&fat_buffer);
+	if (ret == 0)
+		return (0);
+	return (1);
 }
