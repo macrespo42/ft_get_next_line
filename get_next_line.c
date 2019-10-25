@@ -6,11 +6,33 @@
 /*   By: macrespo <macrespo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/15 12:52:04 by macrespo          #+#    #+#             */
-/*   Updated: 2019/10/24 17:39:33 by macrespo         ###   ########.fr       */
+/*   Updated: 2019/10/25 12:33:24 by macrespo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
+
+static char		*ft_stridup(const char *s1, int start)
+{
+	int			i;
+	int			j;
+	char		*s2;
+
+	i = 0;
+	j = start;
+	while (s1[start])
+	{
+		start++;
+		i++;
+	}
+	if (!(s2 = (char*)malloc(sizeof(char) * (i + 1))))
+		return (NULL);
+	i = 0;
+	while (s1[j])
+		s2[i++] = s1[j++];
+	s2[i] = '\0';
+	return (s2);
+}
 
 static int		reader(char **fat_buffer, int fd, char *buffer)
 {
@@ -21,6 +43,8 @@ static int		reader(char **fat_buffer, int fd, char *buffer)
 	while (ret && !(ft_strchr(*fat_buffer, '\n')))
 	{
 		ret = read(fd, buffer, BUFFER_SIZE);
+		if (ret == -1)
+			return (-1);
 		buffer[ret] = '\0';
 		if (fd)
 		{
@@ -68,6 +92,8 @@ int				get_next_line(int fd, char **line)
 		fat_buffer = (char*)ft_calloc(sizeof(char), 1);
 	buffer = (char*)ft_calloc(sizeof(char), BUFFER_SIZE + 1);
 	ret = reader(&fat_buffer, fd, buffer);
+	if (ret == -1 || fd < 0 || BUFFER_SIZE <= 0)
+		return (-1);
 	*line = current_line(&fat_buffer);
 	if (ret == 0)
 	{
