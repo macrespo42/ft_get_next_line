@@ -6,7 +6,7 @@
 /*   By: macrespo <macrespo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/15 12:52:44 by macrespo          #+#    #+#             */
-/*   Updated: 2019/10/25 12:33:39 by macrespo         ###   ########.fr       */
+/*   Updated: 2019/10/27 11:58:51 by macrespo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ char		*ft_strjoin(char const *s1, char const *s2)
 	if (!s1 || !s2)
 		return (NULL);
 	size = ft_strlen(s1) + ft_strlen(s2);
-	if (!(s3 = (char*)malloc(sizeof(char) * (size + 1))))
+	if (!(s3 = malloc(sizeof(char) * (size + 1))))
 		return (NULL);
 	i = 0;
 	while (s1[i])
@@ -74,7 +74,7 @@ void		*ft_calloc(size_t count, size_t size)
 	char		*tab;
 	size_t		i;
 
-	if (!(tab = (char*)malloc(size * count)))
+	if (!(tab = malloc(size * count)))
 		return (NULL);
 	i = 0;
 	while (i < count * size)

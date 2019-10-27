@@ -6,7 +6,7 @@
 /*   By: macrespo <macrespo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/15 12:52:04 by macrespo          #+#    #+#             */
-/*   Updated: 2019/10/25 14:39:50 by macrespo         ###   ########.fr       */
+/*   Updated: 2019/10/27 11:58:25 by macrespo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static char		*ft_stridup(const char *s1, int start)
 		start++;
 		i++;
 	}
-	if (!(s2 = (char*)malloc(sizeof(char) * (i + 1))))
+	if (!(s2 = malloc(sizeof(char) * (i + 1))))
 		return (NULL);
 	i = 0;
 	while (s1[j])
@@ -70,7 +70,7 @@ static char		*current_line(char **fat_buffer)
 	free(*fat_buffer);
 	if (tmp[i] != '\0')
 		*fat_buffer = ft_stridup(tmp, i + 1);
-	if (!(new_line = (char*)malloc(sizeof(char) * i + 1)))
+	if (!(new_line = malloc(sizeof(char) * i + 1)))
 		return (NULL);
 	i = 0;
 	while (tmp[i] && tmp[i] != '\n')
@@ -90,8 +90,8 @@ int				get_next_line(int fd, char **line)
 	int				ret;
 
 	if (fat_buffer == NULL)
-		fat_buffer = (char*)ft_calloc(sizeof(char), 1);
-	buffer = (char*)ft_calloc(sizeof(char), BUFFER_SIZE + 1);
+		fat_buffer = ft_calloc(sizeof(char), 1);
+	buffer = ft_calloc(sizeof(char), BUFFER_SIZE + 1);
 	ret = reader(&fat_buffer, fd, buffer);
 	if (ret == -1 || fd < 0 || BUFFER_SIZE <= 0)
 		return (-1);
