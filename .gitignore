@@ -2,3 +2,5 @@
 *.out
 main.c
 a.out.dSYM
+gnlkiller
+gnl_checker

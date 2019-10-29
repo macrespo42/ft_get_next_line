@@ -6,7 +6,7 @@
 /*   By: macrespo <macrespo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/15 12:52:04 by macrespo          #+#    #+#             */
-/*   Updated: 2019/10/28 18:38:02 by macrespo         ###   ########.fr       */
+/*   Updated: 2019/10/29 17:31:00 by macrespo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ static int		reader(char **fat_buffer, int fd, char *buffer)
 			return (-1);
 		}
 		buffer[ret] = '\0';
-		if (fd)
+		if (fd >= 0)
 		{
 			tmp = *fat_buffer;
 			*fat_buffer = ft_strjoin(tmp, buffer);
@@ -71,10 +71,10 @@ static char		*current_line(char **fat_buffer)
 	i = 0;
 	while (tmp[i] && tmp[i] != '\n')
 		i++;
+	new_line = ft_calloc(sizeof(char), i + 1);
 	free(*fat_buffer);
 	if (tmp[i] != '\0')
 		*fat_buffer = ft_stridup(tmp, i + 1);
-	new_line = ft_calloc(sizeof(char), i + 1);
 	i = 0;
 	while (tmp[i] && tmp[i] != '\n')
 	{
@@ -96,7 +96,8 @@ int				get_next_line(int fd, char **line)
 		fat_buffer = ft_calloc(sizeof(char), 1);
 	buffer = ft_calloc(sizeof(char), BUFFER_SIZE + 1);
 	ret = reader(&fat_buffer, fd, buffer);
-	if (ret == -1 || fd < 0 || BUFFER_SIZE <= 0 || !line)
+	if (ret == -1 || fd < 0 || BUFFER_SIZE <= 0 || !line ||
+		read(fd, buffer, 0) == -1 || fat_buffer == NULL)
 	{
 		free(fat_buffer);
 		fat_buffer = NULL;
