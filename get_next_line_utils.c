@@ -6,7 +6,7 @@
 /*   By: macrespo <macrespo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/15 12:52:44 by macrespo          #+#    #+#             */
-/*   Updated: 2019/10/27 11:58:51 by macrespo         ###   ########.fr       */
+/*   Updated: 2019/10/30 09:51:42 by macrespo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,25 +83,4 @@ void		*ft_calloc(size_t count, size_t size)
 		i++;
 	}
 	return (tab);
-}
-
-char		*ft_substr(char const *s, unsigned int start, size_t len)
-{
-	char	*s_new;
-	size_t	i;
-
-	i = 0;
-	if (!s)
-		return (NULL);
-	if (start >= (size_t)ft_strlen(s))
-	{
-		len = 0;
-		start = 0;
-	}
-	if (!(s_new = malloc(sizeof(char) * (len + 1))))
-		return (NULL);
-	while (len-- && s[start])
-		s_new[i++] = s[start++];
-	s_new[i] = '\0';
-	return (s_new);
 }
